@@ -6,7 +6,9 @@ $json = file_get_contents('vars.json');
 // Decode the JSON file
 $json_data = json_decode($json, true);
 
-$json_data['installed'] = 0;
+if($json_data['installed'] == 1){
+    header('Location: user');
+}
 
 if (isset($_POST["admindata"])) {
    // echo $_POST["username"] . " - " . $_POST["password"];

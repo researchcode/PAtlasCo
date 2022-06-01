@@ -39,11 +39,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <?php
-
                 if (isset($_SESSION['user_user'])) {
-
-
-
                 ?>
                     <div class="collapse navbar-collapse" id="navbarExample01">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -88,28 +84,38 @@
         </nav>
         <!-- Navbar -->
 
-        <!-- Background image -->
-        <div id="intro" class="bg-image vh-100 shadow-1-strong">
-            <video style="min-width: 100%; min-height: 100%;" playsinline autoplay muted loop>
-                <source class="h-100" src="https://mdbootstrap.com/img/video/animation-intro-min.mp4" type="video/mp4" />
-            </video>
-            <div class="mask" style="
+        <?php
+        if (isset($_SESSION['user_user'])) {
+        ?>
+            <!-- Background image -->
+            <div id="intro" class="bg-image vh-100 shadow-1-strong">
+                <video style="min-width: 100%; min-height: 100%;" playsinline autoplay muted loop>
+                    <source class="h-100" src="https://mdbootstrap.com/img/video/animation-intro-min.mp4" type="video/mp4" />
+                </video>
+                <div class="mask" style="
             background: linear-gradient(
               45deg,
               rgba(29, 236, 197, 0.7),
               rgba(91, 14, 214, 0.7) 100%
             );
           ">
-                <div class="container d-flex align-items-center justify-content-center text-center h-100">
-                    <div class="text-white">
-                        <h1 class="mb-3">LinkedAtlas - Linked Data Interactive Atlas using DBpedia</h1>
-                        <h5 class="mb-4">Navitage on the map and get information from a location-based entity</h5>
-                        <h5 class="mb-4">Entity: parks</h5>
-                        <a class="btn btn-outline-light btn-lg m-2" href="#patlasco" role="button" rel="nofollow" target="_self">Go to the map</a>
+
+                    <div class="container d-flex align-items-center justify-content-center text-center h-100">
+                        <div class="text-white">
+                            <h1 class="mb-3">LinkedAtlas - Linked Data Interactive Atlas using DBpedia</h1>
+
+                            <h5 class="mb-4">Navitage on the map and get information from a location-based entity</h5>
+                            <h5 class="mb-4">Entity: parks</h5>
+                            <a class="btn btn-outline-light btn-lg m-2" href="#patlasco" role="button" rel="nofollow" target="_self">Go to the map</a>
+
+                        </div>
                     </div>
+
                 </div>
             </div>
-        </div>
-        <!-- Background image -->
+            <!-- Background image -->
+        <?php
+        }
+        ?>
     </header>
     <!--Main Navigation-->

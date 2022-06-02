@@ -1,8 +1,8 @@
 <?php
 include("../basics/header.php");
 echo "Bienvenido admin";
-include("../basics/footer.php");
-//require_once("../model/functions.php");
+
+require("../model/functions.php");
 ?>
 
 <!--Main layout-->
@@ -17,7 +17,7 @@ include("../basics/footer.php");
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                    <form action="validateLogin()" method="POST">
+                    <form action="../model/functions.php" method="POST">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required>                            
@@ -26,6 +26,7 @@ include("../basics/footer.php");
                             <label for="password">Password</label>
                             <input type="password" class="form-control" name="password" id="password" placeholder="Enter password" required>
                         </div>
+                        <input type="hidden" name="login">
                         <hr>                        
                         <button type="submit" class="btn btn-info">Login</button>
                     </form>
@@ -35,3 +36,6 @@ include("../basics/footer.php");
 
     </div>
 </main>
+<?php
+include("../basics/footer.php");
+?>

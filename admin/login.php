@@ -2,6 +2,7 @@
 include("../basics/header.php");
 echo "Bienvenido admin";
 include("../basics/footer.php");
+//require_once("../model/functions.php");
 ?>
 
 <!--Main layout-->
@@ -16,7 +17,7 @@ include("../basics/footer.php");
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                    <form>
+                    <form action="validateLogin()" method="POST">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" name="username" id="username" placeholder="Enter username" required>                            

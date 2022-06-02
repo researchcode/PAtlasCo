@@ -3,6 +3,7 @@ session_start();
 unset($_SESSION['user_user']);
 $_SESSION['admin_admin'] = 1;
 
+require("../model/functions.php");
 include("../basics/header.php");
 ?>
 <!--Main layout-->
@@ -17,7 +18,7 @@ include("../basics/header.php");
                             <h6 class="card-subtitle mb-2 text-muted">A word that represents a location-based entity (i.e. parks)</h6>
                             <div class="form-group">
                                 <label for="">Entity</label>
-                                <input type="text" name="entity" class="form-control">
+                                <input type="text" name="entity" value="<?php echo getBasicData()['entity']; ?>" class="form-control">
                             </div>
                             <hr>
                             <button type="submit" class="btn btn-info">Save</button>
@@ -30,18 +31,22 @@ include("../basics/header.php");
                         <h6 class="card-subtitle mb-2 text-muted">Give the coordinates of the country to focus the map on that country </h6>
                         <form action="">
                             <div class="form-group">
+                                <label for="">Country name</label>
+                                <input type="text" class="form-control" name="country_name" value="<?php echo getBasicData()['country_name']; ?>">                                
+                            </div>
+                            <div class="form-group">
                                 <label for="">Latitude</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="latitude" value="<?php echo getBasicData()['latitude']; ?>">
                                 <small id="emailHelp" class="form-text text-muted">i.e. 4.40</small>
                             </div>
                             <div class="form-group">
                                 <label for="">Longitude</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="longitude" value="<?php echo getBasicData()['longitude']; ?>">
                                 <small id="emailHelp" class="form-text text-muted">i.e. -72.9301367</small>
                             </div>
                             <div class="form-group">
                                 <label for="">Zoom</label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="zoom" value="<?php echo getBasicData()['zoom']; ?>">
                                 <small id="emailHelp" class="form-text text-muted">A number from 0.0 to 18.0</small>
                             </div>
                             <hr>
@@ -75,7 +80,7 @@ include("../basics/header.php");
                                     <td>Mark</td>
                                     <td>Otto</td>
                                     <td>@mdo</td>
-                                </tr>                               
+                                </tr>
                             </tbody>
                         </table>
                     </div>

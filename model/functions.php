@@ -13,7 +13,7 @@ if (isset($_POST["login"])) {
 function validateLogin()
 {
     $con = Conexion::getConnection();
-    $queryUser = "SELECT * FROM users WHERE username='" . $_POST['username'] . "' AND password='" . $_POST['password'] ."'";    
+    $queryUser = "SELECT * FROM users WHERE username='" . $_POST['username'] . "' AND password='" . $_POST['password'] . "'";
     $result = $con->query($queryUser);
     if ($result != null) {
         if ($result->num_rows > 0) {
@@ -23,4 +23,12 @@ function validateLogin()
     } else {
         return null;
     }
+}
+
+function getBasicData()
+{
+    $con = Conexion::getConnection();
+    $queryUser = "SELECT * FROM basic_data WHERE id=1";
+    $result = $con->query($queryUser);
+    return $result->fetch_assoc();
 }

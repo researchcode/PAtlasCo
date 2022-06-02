@@ -105,7 +105,7 @@
                             <h1 class="mb-3">LinkedAtlas - Linked Data Interactive Atlas using DBpedia</h1>
 
                             <h5 class="mb-4">Navitage on the map and get information from a location-based entity</h5>
-                            <h5 class="mb-4">Entity: parks</h5>
+                            <h5 class="mb-4">Entity: <?php echo getBasicData()['entity']; ?></h5>
                             <a class="btn btn-outline-light btn-lg m-2" href="#patlasco" role="button" rel="nofollow" target="_self">Go to the map</a>
 
                         </div>

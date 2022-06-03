@@ -19,14 +19,15 @@ include("../basics/header.php");
             <div class="row d-flex justify-content-center">
                 <div class="card p-s " style="width: 25rem;">
                     <div class="card-body">
-                        <form action="">
+                        <form action="../model/functions.php" method="POST">
                             <h5 class="card-title">Entity</h5>
                             <h6 class="card-subtitle mb-2 text-muted">A word that represents a location-based entity (i.e. parks)</h6>
                             <div class="form-group">
                                 <label for="">Entity</label>
-                                <input type="text" name="entity" value="<?php echo getBasicData()['entity']; ?>" class="form-control">
+                                <input type="text" name="entity" style="color:blue" value="<?php echo getBasicData()['entity']; ?>" class="form-control">
                             </div>
                             <hr>
+                            <input type="hidden" name="saveEntity">
                             <button type="submit" class="btn btn-info">Save</button>
                         </form>
                     </div>
@@ -34,28 +35,29 @@ include("../basics/header.php");
                 <div class="card p-2 offset-md-1" style="width: 25rem;">
                     <div class="card-body">
                         <h5 class="card-title">Country</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Give the coordinates of the country to focus the map on that country </h6>
-                        <form action="">
+                        <h6 class="card-subtitle mb-2 text-muted">Give the coordinates of the country to center the map on that country </h6>
+                        <form action="../model/functions.php" method="POST">
                             <div class="form-group">
                                 <label for="">Country name</label>
-                                <input type="text" class="form-control" name="country_name" value="<?php echo getBasicData()['country_name']; ?>">                                
+                                <input type="text" class="form-control" style="color:blue" name="country_name" value="<?php echo getBasicData()['country_name']; ?>">
                             </div>
                             <div class="form-group">
                                 <label for="">Latitude</label>
-                                <input type="text" class="form-control" name="latitude" value="<?php echo getBasicData()['latitude']; ?>">
+                                <input type="text" class="form-control" style="color:blue" name="latitude" value="<?php echo getBasicData()['latitude']; ?>">
                                 <small id="emailHelp" class="form-text text-muted">i.e. 4.40</small>
                             </div>
                             <div class="form-group">
                                 <label for="">Longitude</label>
-                                <input type="text" class="form-control" name="longitude" value="<?php echo getBasicData()['longitude']; ?>">
+                                <input type="text" class="form-control" style="color:blue" name="longitude" value="<?php echo getBasicData()['longitude']; ?>">
                                 <small id="emailHelp" class="form-text text-muted">i.e. -72.9301367</small>
                             </div>
                             <div class="form-group">
                                 <label for="">Zoom</label>
-                                <input type="text" class="form-control" name="zoom" value="<?php echo getBasicData()['zoom']; ?>">
+                                <input type="text" class="form-control" style="color:blue" name="zoom" value="<?php echo getBasicData()['zoom']; ?>">
                                 <small id="emailHelp" class="form-text text-muted">A number from 0.0 to 18.0</small>
                             </div>
                             <hr>
+                            <input type="hidden" name="saveCountryCenterPoint">
                             <button type="submit" class="btn btn-info">Save</button>
                         </form>
                     </div>
@@ -69,7 +71,11 @@ include("../basics/header.php");
                     <div class="card-body">
                         <h5 class="card-title">List of markers</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Each marker is set as a point on the map</h6>
-                        <button class="btn btn-info">New</button>
+
+                        <!-- Button trigger newMarkerModal -->
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#newMarkerModal">
+                            New
+                        </button>
                         <hr>
                         <table class="table table-striped table-info">
                             <thead>
@@ -81,12 +87,18 @@ include("../basics/header.php");
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
+                                <?php
+                                $result = getAllMarkers();
+                                while ($marker = mysqli_fetch_assoc($result)) { ?>
+                                    <tr>
+                                        <th scope="row"><?php echo $marker['id']; ?></th>
+                                        <td><?php echo $marker['item_name']; ?></td>
+                                        <td><?php echo $marker['latitude']; ?></td>
+                                        <td><?php echo $marker['longitude']; ?></td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -96,6 +108,43 @@ include("../basics/header.php");
         </section>
     </div>
 </main>
+
+
+<!-- Modal New Marker-->
+<div class="modal fade" id="newMarkerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Marker</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="../model/functions.php" method="POST">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control" style="color:blue" name="item_name">
+                        <small id="emailHelp" class="form-text text-muted">Name of the place or location-based item as it appears on DBpedia</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Latitude</label>
+                        <input type="text" class="form-control" style="color:blue" name="latitude">
+                        <small id="emailHelp" class="form-text text-muted">i.e. 4.40</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Longitude</label>
+                        <input type="text" class="form-control" style="color:blue" name="longitude">
+                        <small id="emailHelp" class="form-text text-muted">i.e. -72.9301367</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="newMarker">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <?php
 include("../basics/footer.php");
 ?>

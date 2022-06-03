@@ -1,3 +1,6 @@
+<?php
+    header('Content-Type: text/html; charset=ISO-8859-1');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,6 +25,7 @@
 
     <link rel="stylesheet" href="<?php echo CSS_PATH;?>leaflet-search.css" />
     <link rel="stylesheet" href="<?php echo CSS_PATH;?>custom.css" />
+    <!--<link rel="stylesheet" href="<?php echo CSS_PATH;?>bootstrap.min.css" />-->
 
 </head>
 

@@ -27,7 +27,7 @@ if (isset($_POST['saveCountryCenterPoint'])) {
 
 function saveCountryCenterPoint(){
     $con = Conexion::getConnection();
-    $queryEntity = "UPDATE basic_data SET latitude = '" . $_POST['latitude'] . "', longitude = '" . $_POST['longitude'] . "', zoom = " . $_POST['zoom'] . " WHERE id = 1";                    
+    $queryEntity = "UPDATE basic_data SET country_name = '".$_POST['country_name']."', latitude = '" . $_POST['latitude'] . "', longitude = '" . $_POST['longitude'] . "', zoom = " . $_POST['zoom'] . " WHERE id = 1";                    
     $con->query($queryEntity);    
 }
 

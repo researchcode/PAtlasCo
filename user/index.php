@@ -1,5 +1,5 @@
 <?php
-    header('Content-Type: text/html; charset=UTF-8');
+header('Content-Type: text/html; charset=UTF-8');
 
 if (!defined('CSS_PATH')) {
     define('CSS_PATH', '../css/');
@@ -36,7 +36,7 @@ if ($json_data['installed'] == 0) {
                     <div class="col-md-7 gx-5 mb-4">
                         <div class="shadow-2-strong" data-mdb-ripple-color="light" id="map_container">
                             <div id="map" style="margin-top: 10%;">
-                                <button id="refreshButton" onclick="refresh()" class="btn btn-success btn-lg m-2 fa fa-refresh">
+                                <button id="refreshButton" onclick="refresh()" class="btn btn-success btn-lg m-5 fa fa-refresh">
                                 </button>
                             </div>
 
@@ -264,9 +264,14 @@ if ($json_data['installed'] == 0) {
     $datosArray = "";
     while ($marker = mysqli_fetch_assoc($result)) {
         $datosArray = $datosArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><button class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . 'Serranía de la Macuira' . "\'" . ',' . "\'" . 'La Serranía de la Macuira está en la Guajira' . "\'" . ') " href="#patlasco" data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Mostrar información </button>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
-    }    
+    }
     $markersData = "[" . $datosArray . "]";
-    
+
+    $basic_data = getBasicData();
+    $country_name = $basic_data['country_name'];
+    $latitude = $basic_data['latitude'];
+    $longitude = $basic_data['longitude'];
+    $zoom = $basic_data['zoom'];
     ?>
 
     <script type="text/javascript">
@@ -278,7 +283,7 @@ if ($json_data['installed'] == 0) {
         setMap();
 
 
-        
+
 
 
         function setMap() {
@@ -304,13 +309,17 @@ if ($json_data['installed'] == 0) {
 
 
             <?php
-            echo "var data =".$markersData.";";
+            echo "var data =" . $markersData . ";";
+            echo "var country_name ='" . $country_name . "';";
+            echo "var latitude =" . $latitude . ";";
+            echo "var longitude =" . $longitude . ";";
+            echo "var zoom =" . $zoom . ";";
             ?>
             //var data = [{"loc":[12.1667,-71.3333], "icon": greenIcon,"alt": "Serranía de la Macuira"},];
 
             var map = L.map('map').
-            setView([4.40, -72.9301367],
-                6);
+            setView([latitude, longitude],
+                zoom);
 
 
             L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -320,7 +329,25 @@ if ($json_data['installed'] == 0) {
 
             L.control.scale().addTo(map);
 
+            var info = L.control();
 
+            info.onAdd = function(map) {
+                this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+                this.update();
+                return this._div;
+            };
+
+            // method that we will use to update the control based on feature properties passed
+            info.update = function() {
+                this._div.innerHTML = '<h4 >LinkedAtlas</h4>';
+                this._div.style.backgroundColor = "white";
+                this._div.style.borderRadius = "20%";
+                this._div.style.width = "150px";
+                this._div.style.height = "50px";
+                this._div.style.padding = "10px";
+            };
+
+            info.addTo(map);
 
 
             map.addLayer(new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')); //base layer
@@ -372,7 +399,7 @@ if ($json_data['installed'] == 0) {
             document.getElementById("mapContent").innerHTML = info;
         }
 
-        function refresh() {
+        function refresh(latitude,longitude, zoom) {
             map.remove();
             //console.log("MAPA: " + mapa.outerHTML);
             var div = document.createElement("div");
@@ -385,13 +412,13 @@ if ($json_data['installed'] == 0) {
             boton.setAttribute("data-mdb-target", "#collapseWidthExample");
             boton.setAttribute("aria-expanded", "false");
             boton.setAttribute("aria-controls", "collapseWidthExample");
-            boton.setAttribute("class", "btn btn-success btn-lg m-2 fa fa-refresh");
+            boton.setAttribute("class", "btn btn-success btn-lg m-5 fa fa-refresh");
             div.appendChild(boton);
             document.getElementById('map_container').appendChild(div);
             document.getElementById("mapTitle").innerHTML = "Select a point on the map";
             document.getElementById("mapContent").innerHTML = "";
             var mapa = setMap();
-            mapa.setView([4.40, -72.9301367], 6);
+            mapa.setView([latitude, longitude], zoom);
         }
     </script>
 <?php

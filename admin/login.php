@@ -6,14 +6,18 @@ if (!defined('CSS_PATH')) {
 if (!defined('JS_PATH')) {
     define('JS_PATH', '../js/');
 }
-include("../basics/header.php");
-echo "Bienvenido admin";
-
-require("../model/functions.php");
+session_start();
 if (isset($_SESSION['user_user'])) {
     unset($_SESSION['user_user']);
     header('Location: ../admin/login.php');
 } 
+include("../basics/header.php");
+echo "Bienvenido admin";
+
+
+require("../model/functions.php");
+
+
 ?>
 
 <!--Main layout-->
@@ -24,7 +28,7 @@ if (isset($_SESSION['user_user'])) {
         <div class="card">
             <div class="card-header">
                 <h2>Welcome admin!</h2>
-                <p>Please enter data to login</p>
+                <p>Please enter data to login</p>                
             </div>
             <div class="card-body">
                 <blockquote class="blockquote mb-0">

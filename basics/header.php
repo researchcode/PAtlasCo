@@ -11,17 +11,17 @@
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
     <!-- MDB -->
-    <link rel="stylesheet" href="../css/mdb.min.css" />
+    <link rel="stylesheet" href="<?php echo CSS_PATH;?>mdb.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
 
-    <script src="../js/leaflet-search.js"></script>
+    <script src="<?php echo JS_PATH;?>leaflet-search.js"></script>
 
-    <link rel="stylesheet" href="../css/leaflet-search.css" />
-    <link rel="stylesheet" href="../css/custom.css" />
+    <link rel="stylesheet" href="<?php echo CSS_PATH;?>leaflet-search.css" />
+    <link rel="stylesheet" href="<?php echo CSS_PATH;?>custom.css" />
 
 </head>
 

@@ -1,4 +1,10 @@
 <?php
+if (!defined('CSS_PATH')) {
+    define('CSS_PATH', '../css/');
+}
+if (!defined('JS_PATH')) {
+    define('JS_PATH', '../js/');
+}
 session_start();
 unset($_SESSION['user_user']);
 $_SESSION['admin_admin'] = 1;

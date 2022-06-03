@@ -1,4 +1,11 @@
 <?php
+
+if (!defined('CSS_PATH')) {
+    define('CSS_PATH', '../css/');
+}
+if (!defined('JS_PATH')) {
+    define('JS_PATH', '../js/');
+}
 include("../basics/header.php");
 echo "Bienvenido admin";
 

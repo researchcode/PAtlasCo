@@ -1,5 +1,10 @@
 <?php
-
+if (!defined('CSS_PATH')) {
+    define('CSS_PATH', '../css/');
+}
+if (!defined('JS_PATH')) {
+    define('JS_PATH', '../js/');
+}
 // Read the JSON file 
 $json = file_get_contents('../vars.json');
   

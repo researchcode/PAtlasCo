@@ -10,7 +10,10 @@ if (!defined('JS_PATH')) {
     define('JS_PATH', '../js/');
 }
 session_start();
-
+if (isset($_SESSION['user_user'])) {
+    unset($_SESSION['user_user']);
+    header('Location: ../admin/login.php');
+} 
 
     unset($_SESSION['user_user']);
     $_SESSION['admin_admin'] = 1;

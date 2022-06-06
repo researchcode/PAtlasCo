@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
 require_once("../model/functions.php");
+
 ?>
 
 <head>

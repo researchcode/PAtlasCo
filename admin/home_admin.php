@@ -47,6 +47,10 @@ include("../basics/header.php");
                                 <input type="text" name="use_policy" id="use_policy" style="color:blue" value="<?php echo getWebsiteData()['use_policy']; ?>" class="form-control">
                             </div>
                             <div class="form-group">
+                                <label for="copyright">Copyright</label>
+                                <input type="text" name="copyright" id="copyright" style="color:blue" value="<?php echo getWebsiteData()['copyright']; ?>" class="form-control" disabled>
+                            </div>
+                            <div class="form-group">
                                 <label for="twitter_link">Twitter link</label>
                                 <input type="text" name="twitter_link" id="twitter_link" style="color:blue" value="<?php echo getWebsiteData()['twitter_link']; ?>" class="form-control">
                             </div>

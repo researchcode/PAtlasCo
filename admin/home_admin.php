@@ -13,12 +13,12 @@ session_start();
 if (isset($_SESSION['user_user'])) {
     unset($_SESSION['user_user']);
     header('Location: ../admin/login.php');
-} 
+}
 
-    unset($_SESSION['user_user']);
-    $_SESSION['admin_admin'] = 1;
+unset($_SESSION['user_user']);
+$_SESSION['admin_admin'] = 1;
 
-require("../model/functions.php");
+
 include("../basics/header.php");
 ?>
 <!--Main layout-->
@@ -27,6 +27,44 @@ include("../basics/header.php");
         <section id="">
             <div class="row d-flex justify-content-center">
                 <div class="card p-s " style="width: 25rem;">
+                    <div class="card-body">
+                        <form action="../model/functions.php" method="POST">
+                            <h5 class="card-title">User home</h5>                            
+                            <div class="form-group">
+                                <label for="main_title">Title</label>
+                                <input type="text" name="main_title" id="main_title" style="color:blue" value="<?php echo getWebsiteData()['main_title']; ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="subtitle">Subtitle</label>
+                                <input type="text" name="subtitle" id="subtitle" style="color:blue" value="<?php echo getWebsiteData()['subtitle']; ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name" style="color:blue" value="<?php echo getWebsiteData()['name']; ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="use_policy">Policy of use</label>
+                                <input type="text" name="use_policy" id="use_policy" style="color:blue" value="<?php echo getWebsiteData()['use_policy']; ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="twitter_link">Twitter link</label>
+                                <input type="text" name="twitter_link" id="twitter_link" style="color:blue" value="<?php echo getWebsiteData()['twitter_link']; ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="youtube_link">Youtube link</label>
+                                <input type="text" name="youtube_link" id="youtube_link" style="color:blue" value="<?php echo getWebsiteData()['youtube_link']; ?>" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="facebook_link">Facebook link</label>
+                                <input type="text" name="facebook_link" id="facebook_link" style="color:blue" value="<?php echo getWebsiteData()['facebook_link']; ?>" class="form-control">
+                            </div>                            
+                            <hr>
+                            <input type="hidden" name="saveWebsiteData">
+                            <button type="submit" class="btn btn-info">Save</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="card p-s offset-md-1" style="width: 25rem;">
                     <div class="card-body">
                         <form action="../model/functions.php" method="POST">
                             <h5 class="card-title">Entity</h5>

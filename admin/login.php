@@ -15,7 +15,7 @@ include("../basics/header.php");
 echo "Bienvenido admin";
 
 
-require("../model/functions.php");
+
 
 
 ?>

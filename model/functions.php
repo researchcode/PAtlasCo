@@ -25,15 +25,27 @@ if (isset($_POST['saveCountryCenterPoint'])) {
     header('Location: ../admin/home_admin.php');
 }
 
+if (isset($_POST['saveWebsiteData'])) {
+    saveWebsiteData();
+    header('Location: ../admin/home_admin.php');
+}
+
+function saveWebsiteData(){
+    $con = Conexion::getConnection();
+    $queryEntity = "UPDATE website_data SET name = '".$_POST['name']."', main_title = '" . $_POST['main_title'] . "', subtitle = '" . $_POST['subtitle'] . "', use_policy = '" . $_POST['use_policy'] . "', copyright = '" . $_POST['copyright'] . "', youtube_link = '" . $_POST['youtube_link'] . "', facebook_link = '" . $_POST['facebook_link'] . "', twitter_link = '" . $_POST['twitter_link'] . "' WHERE code = 'web1'";                    
+    $con->query($queryEntity);    
+}
+
+
 function saveCountryCenterPoint(){
     $con = Conexion::getConnection();
-    $queryEntity = "UPDATE basic_data SET country_name = '".$_POST['country_name']."', latitude = '" . $_POST['latitude'] . "', longitude = '" . $_POST['longitude'] . "', zoom = " . $_POST['zoom'] . " WHERE id = 1";                    
+    $queryEntity = "UPDATE basic_data SET country_name = '".$_POST['country_name']."', latitude = '" . $_POST['latitude'] . "', longitude = '" . $_POST['longitude'] . "', zoom = " . $_POST['zoom'] . " WHERE code = 'data1'";                    
     $con->query($queryEntity);    
 }
 
 function saveEntity(){
     $con = Conexion::getConnection();
-    $queryEntity = "UPDATE basic_data SET entity = '" . $_POST['entity'] . "' WHERE id = 1";                
+    $queryEntity = "UPDATE basic_data SET entity = '" . $_POST['entity'] . "' WHERE code = 'data1'";                
     $con->query($queryEntity);    
 }
 function newMarker()
@@ -68,7 +80,15 @@ function validateLogin()
 function getBasicData()
 {
     $con = Conexion::getConnection();
-    $queryUser = "SELECT * FROM basic_data WHERE id=1";
+    $queryUser = "SELECT * FROM basic_data WHERE code='data1'";
+    $result = $con->query($queryUser);
+    return $result->fetch_assoc();
+}
+
+function getWebsiteData()
+{
+    $con = Conexion::getConnection();
+    $queryUser = "SELECT * FROM website_data WHERE code='web1'";
     $result = $con->query($queryUser);
     return $result->fetch_assoc();
 }

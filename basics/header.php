@@ -1,33 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="en">
+<?php
+require_once("../model/functions.php");
+?>
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>LinkedAtlas</title>
+    <title><?php echo getWebsiteData()['name']; ?></title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
     <!-- MDB -->
-    <link rel="stylesheet" href="<?php echo CSS_PATH;?>mdb.min.css" />
+    <link rel="stylesheet" href="<?php echo CSS_PATH; ?>mdb.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
 
-    <script src="<?php echo JS_PATH;?>leaflet-search.js"></script>
+    <script src="<?php echo JS_PATH; ?>leaflet-search.js"></script>
 
-    <link rel="stylesheet" href="<?php echo CSS_PATH;?>leaflet-search.css" />
-    <link rel="stylesheet" href="<?php echo CSS_PATH;?>custom.css" />
-    <!--<link rel="stylesheet" href="<?php echo CSS_PATH;?>bootstrap.min.css" />-->
+    <link rel="stylesheet" href="<?php echo CSS_PATH; ?>leaflet-search.css" />
+    <link rel="stylesheet" href="<?php echo CSS_PATH; ?>custom.css" />
+    <!--<link rel="stylesheet" href="<?php echo CSS_PATH; ?>bootstrap.min.css" />-->
 
 </head>
 
 <body>
+
     <!--Main Navigation-->
     <header>
         <!-- Navbar -->
@@ -35,7 +38,8 @@
             <div class="container-fluid">
                 <!-- Navbar brand -->
                 <a class="navbar-brand nav-link" target="_self" href="#">
-                    <strong>LinkedAtlas </strong>
+
+                    <strong><?php echo getWebsiteData()['name']; ?> </strong>
                 </a>
                 <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01" aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars"></i>
@@ -104,9 +108,8 @@
 
                     <div class="container d-flex align-items-center justify-content-center text-center h-100">
                         <div class="text-white">
-                            <h1 class="mb-3">LinkedAtlas - Linked Data Interactive Atlas using DBpedia</h1>
-
-                            <h5 class="mb-4">Navitage on the map and get information from a location-based entity</h5>
+                            <h1 class="mb-3"><?php echo getWebsiteData()['main_title']; ?></h1>
+                            <h5 class="mb-4"><?php echo getWebsiteData()['subtitle']; ?></h5>
                             <h5 class="mb-4">Entity: <?php echo getBasicData()['entity']; ?></h5>
                             <a class="btn btn-outline-light btn-lg m-2" href="#patlasco" role="button" rel="nofollow" target="_self">Go to the map</a>
 

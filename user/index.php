@@ -76,31 +76,35 @@ if ($json_data['installed'] == 0) {
             <!--Section: Content-->
 
 
-           
+
         </div>
 
     </main>
     <!--Main layout-->
 
-    
 
 
-    <?php
-    $result = getAllMarkers();
-    $datosArray = "";
-    while ($marker = mysqli_fetch_assoc($result)) {
-        $datosArray = $datosArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><button class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . 'Serranía de la Macuira' . "\'" . ',' . "\'" . 'La Serranía de la Macuira está en la Guajira' . "\'" . ') " href="#patlasco" data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Mostrar información </button>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
-    }
-    $markersData = "[" . $datosArray . "]";
 
-    $basic_data = getBasicData();
-    $country_name = $basic_data['country_name'];
-    $latitude = $basic_data['latitude'];
-    $longitude = $basic_data['longitude'];
-    $zoom = $basic_data['zoom'];
-    ?>
 
     <script type="text/javascript">
+        <?php
+        $result = getAllMarkers();
+        $dataArray = "";
+        $entityName = "parque";
+        while ($marker = mysqli_fetch_assoc($result)) {
+
+            $dataArray = $dataArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><button class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . $marker['item_name'] . "\'" . ',' . "\'" . $entityName . "\'" . ') " href="#patlasco" data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Mostrar información </button>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
+        }
+        $markersData = "[" . $dataArray . "]";
+
+        $basic_data = getBasicData();
+        $country_name = $basic_data['country_name'];
+        $latitude = $basic_data['latitude'];
+        $longitude = $basic_data['longitude'];
+        $zoom = $basic_data['zoom'];
+        ?>
+
+        //alert(data2);
         Object.defineProperty(navigator, 'userAgent', {
             get: function() {
                 return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36';
@@ -220,12 +224,19 @@ if ($json_data['installed'] == 0) {
             return map;
         }
 
-        function showInfo(title, info) {
+        function showInfo(title, content) {
+
+            <?php
+            require_once("dbpedia_query.php");
+            echo "var data2 = " . getDBpediaESInfo("El Cocuy", "parque")['la_comment'] . ";";
+            ?>
+
             document.getElementById("mapTitle").innerHTML = title;
-            document.getElementById("mapContent").innerHTML = info;
+
+            document.getElementById("mapContent").innerHTML = content; //outputResult;
         }
 
-        function refresh(latitude,longitude, zoom) {
+        function refresh(latitude, longitude, zoom) {
             map.remove();
             //console.log("MAPA: " + mapa.outerHTML);
             var div = document.createElement("div");
@@ -248,6 +259,13 @@ if ($json_data['installed'] == 0) {
         }
     </script>
 <?php
+    function searchData2($data1, $data2)
+    {
+        require_once("dbpedia_query.php");
+        $resultDBpedia = getDBpediaESInfo($data1, $data2);
+        //echo "<br>" . $resultDBpedia['la_comment'];
+        return $resultDBpedia['la_comment'];
+    }
     include("../basics/footer.php");
 }
 ?>

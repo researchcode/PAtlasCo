@@ -48,7 +48,7 @@ include("../basics/header.php");
                             </div>
                             <div class="form-group">
                                 <label for="copyright">Copyright</label>
-                                <input type="text" name="copyright" id="copyright" style="color:blue" value="<?php echo getWebsiteData()['copyright']; ?>" class="form-control" disabled>
+                                <input type="text" name="copyright" id="copyright" style="color:blue" value="<?php echo getWebsiteData()['copyright']; ?>" class="form-control" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="twitter_link">Twitter link</label>

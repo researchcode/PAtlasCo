@@ -1,5 +1,25 @@
 <?php
-# Example retrieved from: https://www.openlinksw.com/blog/~kidehen/?id=1652#:~:text=SPARQL%20queries%20are%20actually%20HTTP,PHP.
+//echo "Método HTTP: " . $_SERVER['REQUEST_METHOD'];
+
+switch ($_SERVER['REQUEST_METHOD']) {
+    case 'POST':
+        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
+        $item_name = $input['item_name'];
+        $entity = $input['entity'];
+        $arrayResult = getDBpediaESInfo($item_name, $entity);
+        echo $arrayResult;
+        break;
+    case 'GET':
+        echo '{"Xonsultar":1}';
+        break;
+    case 'PUT':
+        echo 'Actualizar';
+        break;
+    case 'DELETE':
+        echo 'Eliminar';
+        break;
+}
+
 
 function sparqlQuery($query, $baseURL, $format = "application/json")
 

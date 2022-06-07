@@ -85,15 +85,13 @@ if ($json_data['installed'] == 0) {
 
 
 
-
     <script type="text/javascript">
         <?php
         $result = getAllMarkers();
         $dataArray = "";
         $entityName = "parque";
         while ($marker = mysqli_fetch_assoc($result)) {
-
-            $dataArray = $dataArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><button class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . $marker['item_name'] . "\'" . ',' . "\'" . $entityName . "\'" . ') " href="#patlasco" data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Mostrar información </button>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
+            $dataArray = $dataArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><a class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . $marker['item_name'] . "\'" . ',' . "\'" . $entityName . "\'" . ') " href="#patlasco" data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Mostrar información </a>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
         }
         $markersData = "[" . $dataArray . "]";
 
@@ -224,17 +222,42 @@ if ($json_data['installed'] == 0) {
             return map;
         }
 
-        function showInfo(title, content) {
-
-            <?php
-            require_once("dbpedia_query.php");
-            echo "var data2 = " . getDBpediaESInfo("El Cocuy", "parque")['la_comment'] . ";";
-            ?>
-
+        async function showInfo(title, content) {
+            alert(title + '***' +  content);
+           
+            postData('http://localhost/linkedatlas/user/consuming_dbpedia.php', {
+                    'item_name': title,
+                    'entity':content
+                })
+                .then(data => {
+                    console.log(JSON.stringify(data));
+                    document.getElementById("mapContent").innerHTML = JSON.stringify(data); // JSON data parsed by `data.json()` call
+                });
+            /***********FIN**********/
             document.getElementById("mapTitle").innerHTML = title;
-
-            document.getElementById("mapContent").innerHTML = content; //outputResult;
+            //document.getElementById("mapContent").innerHTML = content; //outputResult;           
         }
+       
+        // Ejemplo implementando el metodo POST:
+        async function postData(url = '', data = {}) {
+            // Opciones por defecto estan marcadas con un *
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/text'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'manual', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return response.json(); // parses JSON response into native JavaScript objects
+        }
+
+
 
         function refresh(latitude, longitude, zoom) {
             map.remove();
@@ -263,7 +286,7 @@ if ($json_data['installed'] == 0) {
     {
         require_once("dbpedia_query.php");
         $resultDBpedia = getDBpediaESInfo($data1, $data2);
-        //echo "<br>" . $resultDBpedia['la_comment'];
+        echo "<br>" . $resultDBpedia['la_comment'];
         return $resultDBpedia['la_comment'];
     }
     include("../basics/footer.php");

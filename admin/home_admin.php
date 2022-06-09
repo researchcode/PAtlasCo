@@ -29,7 +29,7 @@ include("../basics/header.php");
                 <div class="card p-s " style="width: 25rem;">
                     <div class="card-body">
                         <form action="../model/functions.php" method="POST">
-                            <h5 class="card-title">User home</h5>                            
+                            <h5 class="card-title">User home</h5>
                             <div class="form-group">
                                 <label for="main_title">Title</label>
                                 <input type="text" name="main_title" id="main_title" style="color:blue" value="<?php echo getWebsiteData()['main_title']; ?>" class="form-control">
@@ -61,7 +61,7 @@ include("../basics/header.php");
                             <div class="form-group">
                                 <label for="facebook_link">Facebook link</label>
                                 <input type="text" name="facebook_link" id="facebook_link" style="color:blue" value="<?php echo getWebsiteData()['facebook_link']; ?>" class="form-control">
-                            </div>                            
+                            </div>
                             <hr>
                             <input type="hidden" name="saveWebsiteData">
                             <button type="submit" class="btn btn-info">Save</button>
@@ -135,6 +135,8 @@ include("../basics/header.php");
                                     <th scope="col">Name</th>
                                     <th scope="col">Latitude</th>
                                     <th scope="col">Longitude</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -146,6 +148,8 @@ include("../basics/header.php");
                                         <td><?php echo $marker['item_name']; ?></td>
                                         <td><?php echo $marker['latitude']; ?></td>
                                         <td><?php echo $marker['longitude']; ?></td>
+                                        <td><a href="../model/functions.php?edit_marker=1&id=<?php echo $marker['id']; ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                                        <td><a href="../model/functions.php?delete_marker=1&id=<?php echo $marker['id']; ?>"><i class="fa-solid fa-trash-can"></i></a></td>
                                     </tr>
                                 <?php
                                 }
@@ -196,6 +200,57 @@ include("../basics/header.php");
         </div>
     </div>
 </div>
+
+
+
+<!-- Modal Edit Marker-->
+<div class="modal fade" id="editMarkerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Marker</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="../model/functions.php" method="POST">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control" style="color:blue" name="item_name" value="<?php echo $marker_data['item_name'] ?>">
+                        <small id="emailHelp" class="form-text text-muted">Name of the place or location-based item as it appears on DBpedia</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Latitude</label>
+                        <input type="text" class="form-control" style="color:blue" name="latitude">
+                        <small id="emailHelp" class="form-text text-muted">i.e. 4.40</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Longitude</label>
+                        <input type="text" class="form-control" style="color:blue" name="longitude">
+                        <small id="emailHelp" class="form-text text-muted">i.e. -72.9301367</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="newMarker">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-info">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php
+if (isset($_GET['edit_marker_functions'])) {
+    $marker_data = getMarkerDataById($_GET['id']);
+    echo $marker_data['item_name'];
+    echo '<script type="text/javascript">   
+   $("#editMarkerModal").show();
+   </script>';
+?>
+
+<?php
+}
+?>
+
 <?php
 include("../basics/footer.php");
 ?>

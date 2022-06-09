@@ -1,4 +1,4 @@
-<?php
+k<?php
 header('Content-Type: text/html; charset=UTF-8');
 
 if (!defined('CSS_PATH')) {
@@ -60,7 +60,9 @@ if ($json_data['installed'] == 0) {
                                             <div class="card-body">
                                                 <h5 class="card-title" id="mapTitle">Select a point on the map</h5>
                                                 <p class="card-text" id="mapContent">
-
+                                                <div class="justify-content-center spinner-border text-info d-none" id="loading" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
                                                 </p>
                                             </div>
                                         </div>
@@ -91,7 +93,7 @@ if ($json_data['installed'] == 0) {
         $dataArray = "";
         $entityName = "parque";
         while ($marker = mysqli_fetch_assoc($result)) {
-            $dataArray = $dataArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><a class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . $marker['item_name'] . "\'" . ',' . "\'" . $entityName . "\'" . ') " href="#patlasco" data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Mostrar información </a>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
+            $dataArray = $dataArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><button class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . $marker['item_name'] . "\'" . ',' . "\'" . $entityName . "\'" . ') " data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Show info </button>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
         }
         $markersData = "[" . $dataArray . "]";
 
@@ -231,14 +233,22 @@ if ($json_data['installed'] == 0) {
 
         async function showInfo(title, content) {
             //alert(title + '***' +  content);
+            document.getElementById('loading').classList.remove('d-none');            
 
             postData('http://localhost/linkedatlas/user/consuming_dbpedia.php', {
                     'item_name': title,
                     'entity': content
                 })
                 .then(data => {
-                    console.log(JSON.stringify(data));
-                    document.getElementById("mapContent").innerHTML = data['la_comment']; // JSON data parsed by `data.json()` call
+
+                    if (data['la_comment'] === 'no comment') {
+                        //console.log('vacio');
+                        document.getElementById("mapContent").innerHTML = 'Information not found on DBpedia.'; // JSON data parsed by `data.json()` call
+                    } else {
+                        document.getElementById("mapContent").innerHTML = data['la_comment']; // JSON data parsed by `data.json()` call
+                    }                    
+                    document.getElementById('loading').classList.add('d-none');
+
                 });
             /***********FIN**********/
             document.getElementById("mapTitle").innerHTML = title;
@@ -261,6 +271,7 @@ if ($json_data['installed'] == 0) {
                 referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
                 body: JSON.stringify(data) // body data type must match "Content-Type" header
             });
+
             return response.json(); // parses JSON response into native JavaScript objects
         }
 
@@ -289,13 +300,13 @@ if ($json_data['installed'] == 0) {
         }
     </script>
 <?php
-    function searchData2($data1, $data2)
+    /* function searchData2($data1, $data2)
     {
         require_once("dbpedia_query.php");
         $resultDBpedia = getDBpediaESInfo($data1, $data2);
         echo "<br>" . $resultDBpedia['la_comment'];
         return $resultDBpedia['la_comment'];
-    }
+    }*/
     include("../basics/footer.php");
 }
 ?>

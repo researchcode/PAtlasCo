@@ -83,7 +83,16 @@ require_once("../model/functions.php");
                         </ul>
                     </div>
                 <?php
-                } else {
+                } else if (isset($_SESSION['admin_admin']))  {
+                ?>
+                    <div class="collapse navbar-collapse" id="navbarExample01">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item active">
+                                <a class="nav-link" aria-current="page" href="<?php echo CSS_PATH; ?>../admin/logout.php">Logout</a>
+                            </li>                            
+                        </ul>
+                    </div>
+                <?php
                 }
                 ?>
 

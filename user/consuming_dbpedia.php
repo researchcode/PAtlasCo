@@ -76,7 +76,7 @@ WHERE {
     }
     //print_r($dataArray);
 
-    return $dataArray;
+    return json_encode($dataArray);
 }
 
 function saludar($nombre, $mensaje)

@@ -193,8 +193,15 @@ if ($json_data['installed'] == 0) {
                 marker: false
             });
 
+
             map.addControl(controlSearch);
 
+            controlSearch.on('search:locationfound', function(event) {
+                event.layer.openPopup();
+                document.getElementById("mapTitle").innerHTML = "Select a point on the map";
+                document.getElementById("mapContent").innerHTML = "";
+
+            });
 
             ////////////populate map with markers from sample data
             for (i in data) {
@@ -223,21 +230,21 @@ if ($json_data['installed'] == 0) {
         }
 
         async function showInfo(title, content) {
-            alert(title + '***' +  content);
-           
+            //alert(title + '***' +  content);
+
             postData('http://localhost/linkedatlas/user/consuming_dbpedia.php', {
                     'item_name': title,
-                    'entity':content
+                    'entity': content
                 })
                 .then(data => {
                     console.log(JSON.stringify(data));
-                    document.getElementById("mapContent").innerHTML = JSON.stringify(data); // JSON data parsed by `data.json()` call
+                    document.getElementById("mapContent").innerHTML = data['la_comment']; // JSON data parsed by `data.json()` call
                 });
             /***********FIN**********/
             document.getElementById("mapTitle").innerHTML = title;
             //document.getElementById("mapContent").innerHTML = content; //outputResult;           
         }
-       
+
         // Ejemplo implementando el metodo POST:
         async function postData(url = '', data = {}) {
             // Opciones por defecto estan marcadas con un *

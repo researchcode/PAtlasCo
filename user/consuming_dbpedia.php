@@ -7,7 +7,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $item_name = $input['item_name'];
         $entity = $input['entity'];
         $arrayResult = getDBpediaESInfo($item_name, $entity);
-        echo $arrayResult;
+        echo  $arrayResult;
         break;
     case 'GET':
         echo '{"Xonsultar":1}';
@@ -65,21 +65,23 @@ WHERE {
 
     $data = sparqlQuery($query, "http://es.dbpedia.org/sparql");
 
+
     $dataArray = [];
-    foreach ($data->results as $key => $value) {
-        if ($value[0] != null) {
-            if (is_object($value[0])) {
-                if (isset($value[0]->la_comment))
-                    $dataArray['la_comment'] = $value[0]->la_comment->value;
+    if (sizeof($data->results->bindings) == 0) {
+        $dataArray['la_comment'] = 'no comment';
+    } else {
+        foreach ($data->results as $key => $value) {
+            if (isset($value)) {
+                if ($value[0] != null) {
+                    if (is_object($value[0])) {
+                        if (isset($value[0]->la_comment)) {
+                            $dataArray['la_comment'] = $value[0]->la_comment->value;
+                        }
+                    }
+                }
             }
         }
     }
-    //print_r($dataArray);
 
     return json_encode($dataArray);
-}
-
-function saludar($nombre, $mensaje)
-{
-    return "Hola " . $nombre . " " . $mensaje;
 }

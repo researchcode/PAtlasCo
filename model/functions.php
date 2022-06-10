@@ -33,7 +33,9 @@ if (isset($_GET['edit_marker'])) {
     header('Location: ../admin/home_admin.php?edit_marker_functions=1&id='.$_GET['id']);
 }
 
-if (isset($_GET['delete_marker'])) {
+if (isset($_POST['delete_marker'])) {
+    deleteMarker($_POST['markerId_delete']);
+    header('Location: ../admin/home_admin.php');
 }
 
 
@@ -84,6 +86,7 @@ function newMarker()
 {
     $con = Conexion::getConnection();
     $queryMarker = "INSERT INTO entity_markers (item_name, latitude, longitude)VALUES ('" . $_POST['item_name'] . "'," . $_POST['latitude'] . "," . $_POST['longitude'] . ")";
+    //echo $queryMarker;
     $con->query($queryMarker);
 }
 

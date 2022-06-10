@@ -148,8 +148,8 @@ include("../basics/header.php");
                                         <td><?php echo $marker['item_name']; ?></td>
                                         <td><?php echo $marker['latitude']; ?></td>
                                         <td><?php echo $marker['longitude']; ?></td>
-                                        <td><a href="../model/functions.php?edit_marker=1&id=<?php echo $marker['id']; ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
-                                        <td><a href="../model/functions.php?delete_marker=1&id=<?php echo $marker['id']; ?>"><i class="fa-solid fa-trash-can"></i></a></td>
+                                        <td><a href="" data-bs-toggle="modal" data-bs-target="#editMarkerModal" data-val="<?php echo $marker['id'] . "&&" . $marker['item_name'] . "&&" . $marker['latitude'] . "&&" . $marker['longitude']; ?>"><i class="fa-solid fa-pen-to-square"></i></a></td>
+                                        <td><a href="" data-bs-toggle="modal" data-bs-target="#deleteMarkerModal" data-val="<?php echo $marker['id'] . "&&" . $marker['item_name']; ?>"><i class="fa-solid fa-trash-can"></i></a></td>
                                     </tr>
                                 <?php
                                 }
@@ -203,6 +203,7 @@ include("../basics/header.php");
 
 
 
+
 <!-- Modal Edit Marker-->
 <div class="modal fade" id="editMarkerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -215,17 +216,17 @@ include("../basics/header.php");
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="">Name</label>
-                        <input type="text" class="form-control" style="color:blue" name="item_name" value="<?php echo $marker_data['item_name'] ?>">
+                        <input type="text" class="form-control" style="color:blue" name="item_name" id="item_name_edit" value="">
                         <small id="emailHelp" class="form-text text-muted">Name of the place or location-based item as it appears on DBpedia</small>
                     </div>
                     <div class="form-group">
                         <label for="">Latitude</label>
-                        <input type="text" class="form-control" style="color:blue" name="latitude">
+                        <input type="text" class="form-control" style="color:blue" name="latitude" id="latitude_edit">
                         <small id="emailHelp" class="form-text text-muted">i.e. 4.40</small>
                     </div>
                     <div class="form-group">
                         <label for="">Longitude</label>
-                        <input type="text" class="form-control" style="color:blue" name="longitude">
+                        <input type="text" class="form-control" style="color:blue" name="longitude" id="longitude_edit">
                         <small id="emailHelp" class="form-text text-muted">i.e. -72.9301367</small>
                     </div>
                 </div>
@@ -238,18 +239,55 @@ include("../basics/header.php");
         </div>
     </div>
 </div>
-<?php
-if (isset($_GET['edit_marker_functions'])) {
-    $marker_data = getMarkerDataById($_GET['id']);
-    echo $marker_data['item_name'];
-    echo '<script type="text/javascript">   
-   $("#editMarkerModal").show();
-   </script>';
-?>
 
-<?php
-}
-?>
+<!--Modal Delete Marker-->
+
+<div class="modal fade" id="deleteMarkerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete marker</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="user" method="post" action="../model/functions.php">
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert">
+                        Are you sure you want to delete it?
+                        <br><span class="fa fa-exclamation-triangle"></span> Data of this marker will be remove from database.
+                    </div>
+                    <p id="markerNameToDelete">Marker name: </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="delete_marker" value="">
+                    <input type="hidden" id="markerId_delete" name="markerId_delete">
+                    <button class="btn btn-light" type="button" data-bs-dismiss="modal" >Cancel</button>
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#editMarkerModal').on('show.bs.modal', function(e) {
+            var datos = $(e.relatedTarget).data('val').split("&&");
+            document.getElementById("item_name_edit").value = datos[1];
+            document.getElementById("latitude_edit").value = datos[2];
+            document.getElementById("longitude_edit").value = datos[3];
+
+        });
+
+
+        $('#deleteMarkerModal').on('show.bs.modal', function(e) {
+            var datos = $(e.relatedTarget).data('val').split("&&");
+            document.getElementById("markerNameToDelete").innerText = document.getElementById("markerNameToDelete").innerText + ' ' + datos[1];
+            document.getElementById("markerId_delete").value = datos[0];
+        });
+
+
+    });
+</script>
 
 <?php
 include("../basics/footer.php");

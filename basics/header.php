@@ -58,10 +58,10 @@ require_once("../model/functions.php");
                     <div class="collapse navbar-collapse" id="navbarExample01">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item active">
-                                <a class="nav-link" aria-current="page" href="#patlasco">Map</a>
+                                <a class="nav-link" aria-current="page" href="#linkedatlas_map">Map</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" aria-current="page" href="#intro">Policy for use</a>
+                                <a class="nav-link" aria-current="page" href="#policy">Policy for use</a>
                             </li>
                         </ul>
 
@@ -128,7 +128,7 @@ require_once("../model/functions.php");
                             <h1 class="mb-3"><?php echo getWebsiteData()['main_title']; ?></h1>
                             <h5 class="mb-4"><?php echo getWebsiteData()['subtitle']; ?></h5>
                             <h5 class="mb-4">Entity: <?php echo getBasicData()['entity']; ?></h5>
-                            <a class="btn btn-outline-light btn-lg m-2" href="#patlasco" role="button" rel="nofollow" target="_self">Go to the map</a>
+                            <a class="btn btn-outline-light btn-lg m-2" href="#linkedatlas_map" role="button" rel="nofollow" target="_self">Go to the map</a>
 
                         </div>
                     </div>

@@ -52,7 +52,7 @@ k<?php
                                 <div class="col-md-12">
                                     <div class="card">
                                         <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                            <img src="../images/map.png" class="img-fluid" />
+                                            <img src="../images/map.png" class="img-fluid" id="mapImage" />
                                             <a href="#!">
                                                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
                                             </a>
@@ -101,9 +101,9 @@ k<?php
     <?php
         $result = getAllMarkers();
         $dataArray = "";
-        $entityName = "parque";
+
         while ($marker = mysqli_fetch_assoc($result)) {
-            $dataArray = $dataArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><button class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . $marker['item_name'] . "\'" . ',' . "\'" . $entityName . "\'" . ') " data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Show info </button>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
+            $dataArray = $dataArray . '{"loc":[' . $marker["latitude"] . ',' . $marker["longitude"] . '], "title": ' . "'" . $marker['item_name'] . ' </br><button class="btn btn-success btn-xs" onclick="showInfo(' . "\'" . $marker['item_name'] . "\'" . ',' . "\'" . getBasicData()["entity"] . "\'" . ',' . "\'" . getBasicData()["country_name"] . "\'" . ',' . "\'" . getBasicData()["lang"] . "\'" . ') " data-mdb-toggle="collapse" data-mdb-target = "#collapseWidthExample" aria-expanded ="false" aria-controls ="collapseWidthExample" > Show info </button>' . "'" . ', "icon": greenIcon,"alt": "' . $marker["item_name"] . '"},';
         }
         $markersData = "[" . $dataArray . "]";
 
@@ -203,6 +203,7 @@ k<?php
             event.layer.openPopup();
             document.getElementById("mapTitle").innerHTML = "Select a point on the map";
             document.getElementById("mapContent").innerHTML = "";
+            document.getElementById("mapImage").src = "../images/map.png";
 
         });
 
@@ -232,13 +233,15 @@ k<?php
         return map;
     }
 
-    async function showInfo(title, content) {
+    async function showInfo(title, content, country, lang) {
         //alert(title + '***' +  content);
         document.getElementById('loading').classList.remove('d-none');
 
         postData('http://localhost/linkedatlas/user/consuming_dbpedia.php', {
                 'item_name': title,
-                'entity': content
+                'entity': content,
+                'country':country,
+                'lang':lang
             })
             .then(data => {
 
@@ -247,6 +250,13 @@ k<?php
                     document.getElementById("mapContent").innerHTML = 'Information not found on DBpedia.'; // JSON data parsed by `data.json()` call
                 } else {
                     document.getElementById("mapContent").innerHTML = data['la_comment']; // JSON data parsed by `data.json()` call
+
+
+                }                
+                if (data['image'] === 'no image') {
+                    document.getElementById("mapImage").src = "../images/map.png";
+                } else {                    
+                    document.getElementById("mapImage").src = data['image'];
                 }
                 document.getElementById('loading').classList.add('d-none');
 
@@ -280,7 +290,6 @@ k<?php
 
     function refresh(latitude, longitude, zoom) {
         map.remove();
-        //console.log("MAPA: " + mapa.outerHTML);
         var div = document.createElement("div");
         div.setAttribute("id", "map");
         div.setAttribute("style", "margin-top: 10%;");
@@ -296,18 +305,12 @@ k<?php
         document.getElementById('map_container').appendChild(div);
         document.getElementById("mapTitle").innerHTML = "Select a point on the map";
         document.getElementById("mapContent").innerHTML = "";
+        document.getElementById("mapImage").src = "../images/map.png";
         var mapa = setMap();
         mapa.setView([latitude, longitude], zoom);
     }
 </script>
 <?php
-        /* function searchData2($data1, $data2)
-    {
-        require_once("dbpedia_query.php");
-        $resultDBpedia = getDBpediaESInfo($data1, $data2);
-        echo "<br>" . $resultDBpedia['la_comment'];
-        return $resultDBpedia['la_comment'];
-    }*/
         include("../basics/footer.php");
     }
 ?>

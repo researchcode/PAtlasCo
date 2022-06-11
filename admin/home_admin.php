@@ -75,7 +75,7 @@ include("../basics/header.php");
                             <h6 class="card-subtitle mb-2 text-muted">A word that represents a location-based entity (i.e. parks)</h6>
                             <div class="form-group">
                                 <label for="">Entity</label>
-                                <input type="text" name="entity" style="color:blue" value="<?php echo getBasicData()['entity']; ?>" class="form-control">
+                                <input required type="text" name="entity" style="color:blue" value="<?php echo getBasicData()['entity']; ?>" class="form-control">
                             </div>
                             <hr>
                             <input type="hidden" name="saveEntity">
@@ -106,6 +106,11 @@ include("../basics/header.php");
                                 <label for="">Zoom</label>
                                 <input type="text" class="form-control" style="color:blue" name="zoom" value="<?php echo getBasicData()['zoom']; ?>">
                                 <small id="emailHelp" class="form-text text-muted">A number from 0.0 to 18.0</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Language</label>
+                                <input type="text" class="form-control" style="color:blue" name="lang" value="<?php echo getBasicData()['lang']; ?>">
+                                <small id="emailHelp" class="form-text text-muted">Write en or es</small>
                             </div>
                             <hr>
                             <input type="hidden" name="saveCountryCenterPoint">

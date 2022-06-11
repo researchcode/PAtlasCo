@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-require_once("../model/functions.php");
+require_once( CSS_PATH."../model/functions.php");
 
 ?>
 

@@ -3,7 +3,11 @@ if (!defined('CONFIG_PATH')) {
     define('CONFIG_PATH', '../');
 }
 
-require_once(CONFIG_PATH . "config.php");
+if (!defined('CSS_PATH')) {
+    define('CSS_PATH', '../css/');
+}
+
+require_once( CSS_PATH . "../config.php");
 
 class Conexion
 {
